@@ -166,7 +166,7 @@ Now you can run:
 ```
 npm run test
 ```
-![test-result]()
+![test-result](https://github.com/Zovi343/E2E_Testing_with_Puppeteer_Article/blob/master/img/test_result.png)
 
 Let's analyze this code line by line. On first line we are setting `timeout` variable, which we are later using to specify timeout for our tests(note that we specify this timeout in milliseconds). So as you can see if we are running Puppeteer in slowMo we increase our timeout from 20000 ms to 70000 ms. This ensure that our tests won't timeout. 
 On line 3 we use `beforeAll`, this function will run some code before all tests in our file are executed. As you can see we pass to this function an async callback in which we navigate to `URL` which we specified earlier as global variable. But from where we took `page`? `page` is actually exposed to each test file in our test suite thanks to jest-puppeteer preset.
