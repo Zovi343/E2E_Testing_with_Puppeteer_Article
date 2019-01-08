@@ -86,25 +86,7 @@ Run it with:
 ```
 node puppeteer_firts_try.js
 ```
-
-* in `puppeteer_firts_try.js`
-```javascript
-const puppeteer = require('puppeteer');
-
-(async function main(){
-    try {
-        const browser = await puppeteer.launch({ headless: false });
-        const page = await browser.newPage();
-        await page.goto('http://localhost:8080/');
-        
-        await new Promise(resolve =>  setTimeout(resolve, 5000));
-        console.log('done');
-        await browser.close();
-    } catch (e) {
-        console.log('Err', e);
-    }
-})();
-```
+<script src="https://gist.github.com/nisrulz/11c0d63428b108f10c83.js"></script>
 
 
 
