@@ -67,13 +67,16 @@ npm install
 npm run dev-server
 ```
 
-Great now our application is running on http://localhost:8080. Next thing to do do is to install all the neccessary tools.
+Great now our application is running on http://localhost:8080. After visiting it you should see something like this:
+![test-result](https://raw.githubusercontent.com/Zovi343/E2E_Testing_with_Puppeteer_Article/master/img/app.png)
+
+Next thing to do do is to install all the neccessary tools.
 
 ```
 npm install puppeteer jest jest-puppeteer
 ```
 
-Also we will need to additionaly install jest-cli globaly in order to be able to run only one test separetly from others.
+Also we will need to additionaly install [jest-cli](https://jestjs.io/docs/en/cli) globaly in order to be able to run only one test separetly from others.
 
 ```
 npm install -g jest-cli
@@ -109,7 +112,7 @@ const puppeteer = require('puppeteer');
 With `await puppeteer.launch({ headless: false });` on line 5 we are launching new Chromium instance, in options we specify `headless: false`, which means that browser won't run in the headless mode(basically without graphical user interface). On the next line we open new page and then on the line 7 we navigate to http://localhost:8080. `{waitUntil: 'domcontentloaded'}` option on line 7 specify that our code will wait till DOM content is loaded. Line 9 just makes app to stop for 5 seconds, so you can observe it. And on line 11 we close the browser.
 
 ##Integrating Puppeteer with Jest
-Now we will integrate Puppeteer with Jest. But why is this neccessary in the first place? We do this, because Puppeteer on itself is not testing framework, it is tool which allow us to control Headless Chrome. So in order to make our work easier, we combine it with Jest, which provides great testing utilities.
+Now we will integrate Puppeteer with Jest. But why is this neccessary in the first place? We do this, because Puppeteer on itself isn't testing framework, it is tool which allow us to control Headless Chrome. So in order to make our work easier, we combine it with Jest, which provides great testing utilities.
 
 #####Jest Configuration
 * create jest.config.js file in the root of the project and paste this code in
@@ -138,14 +141,14 @@ module.exports = {
     }
 }
 ```
-Here in `lauch` object we can specify options for Chromium instance, which will be launched before our test suite and accessible to all test files. So you can specify all the options, which you would normally pass here `puppeteer.launch({ /*your options...*/ });`. Here you can find [all available options](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#puppeteerlaunchoptions). So on line 3 we are specifying if Puppeteer should lunch Browser in `headless` mode or not. And on line 4 we are doing the same, but now with `slowMo` (slow motion).
+Here in `lauch` object we can specify options for Chromium instance, which will be launched before our test suite and accessible to all test files. So you can specify all the options, which you would normally pass here [puppeteer.launch()](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#puppeteerlaunchoptions). So on line 3 we are specifying if Puppeteer should lunch Browser in `headless` mode or not. And on line 4 we are doing the same, but now with `slowMo` (slow motion).
 
 ## Writing Our Tests
 
 #####Testing Frontend
 
 With everything set up we can finally start writing our tests. Let's start with something simple:
-* in `src/test/` create file named frontend.test.js and write following code in it
+* in `src/test/` create file named frontend.test.js and write following code in it:
 ```javascript {.line-numbers}
 const timeout = process.env.SLOWMO ? 70000 : 20000;
 
@@ -166,20 +169,25 @@ Now you can run:
 ```
 npm run test
 ```
-![test-result](https://github.com/Zovi343/E2E_Testing_with_Puppeteer_Article/blob/master/img/test_result.png)
+And you should see something like this:
+
+![test-result](https://raw.githubusercontent.com/Zovi343/E2E_Testing_with_Puppeteer_Article/master/img/test_result.png)
 
 Let's analyze this code line by line. On first line we are setting `timeout` variable, which we are later using to specify timeout for our tests(note that we specify this timeout in milliseconds). So as you can see if we are running Puppeteer in slowMo we increase our timeout from 20000 ms to 70000 ms. This ensure that our tests won't timeout. 
-On line 3 we use `beforeAll`, this function will run some code before all tests in our file are executed. As you can see we pass to this function an async callback in which we navigate to `URL` which we specified earlier as global variable. But from where we took `page`? `page` is actually exposed to each test file in our test suite thanks to jest-puppeteer preset.
-On line 7 we are using `describe` which allow us to group tests together.
+On line 3 we use [beforeAll](https://jestjs.io/docs/en/api#beforeallfn-timeout), this function will run some code before all tests in our file are executed. As you can see we pass to this function an async callback in which we navigate to `URL` which we specified earlier as global variable. But from where we took `page`? `page` is actually exposed to each test file in our test suite thanks to jest-puppeteer preset.
+On line 7 we are using [describe](https://jestjs.io/docs/en/setup-teardown#order-of-execution-of-describe-and-test-blocks) which allow us to group tests together.
 And then we write our actual test. This test is rather simple on line 9 we get page title and then we use Jest built in assertion library [expect](https://jestjs.io/docs/en/expect) to test if we got correct title.
 
 Now let's and another test to this file. Paste this code right under the first test in our describe block.
 ```javascript {.line-numbers}
 test('Header of the page', async () => {
-        const h1Handle = await page.$('h1');
+        const h1Handle = await page.$('.learn_header');
         const html = await page.evaluate(h1Handle => h1Handle.innerHTML, h1Handle);
 
-        expect(html).toBe("E2E Testing with  <span class=\"pupp\">Puppeteer</span> and <span class=\"jest\">Jest</span>");
+        expect(html).toBe("What will you learn");
     }, timeout);
 ```
 
+On line 2 we are using [page.$(selector)](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pageselector) which allow us to select HTML element by normal CSS selector. And it returns [ElementHandle](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-class-elementhandle) which we can later use to get innerHTML of this element. On line 3 we then use [page.evaluate(pageFunction[, ...args])](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pageevaluatepagefunction-args) to basically evaluate our handle in page context and that way get access to the innerHTML.
+
+###Form Tests
