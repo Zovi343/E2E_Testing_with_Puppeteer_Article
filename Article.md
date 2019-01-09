@@ -1,6 +1,6 @@
 # End-to-End testing with Puppeteer and Jest 
 
-In this article I will cover very briefly introduction to testing and then dive deeper into End-to-End testing using Jest and Puppeteer, which are very popular javascript frameworks used for testing.  
+In this article I will cover very briefly introduction to testing and then dive deeper into End-to-End testing using Jest and Puppeteer, which are very popular javascript frameworks used for testing purposes.  
 
 Requirements for this tutorial are: 
 
@@ -18,7 +18,7 @@ So let me first say few words about testing in general. Testing is crucial part 
 
 * Integration testing – In this type of testing we combine and test individual units and test them as a group. 
 
-* End-to-End(E2E) testing –  Is defined as defined as the testing of complete functionality of some application. 
+* End-to-End(E2E) testing –  Is defined as the testing of complete functionality of some application. 
 
 Throughout this tutorial we will be focusing on E2E testing as the title suggests. We will be writing our tests with two powerful tools, which are Jest and Pupeeteer: 
 
@@ -26,7 +26,7 @@ Throughout this tutorial we will be focusing on E2E testing as the title suggest
 
 * [Puppeteer](https://pptr.dev/): A Node.js library created by Google, which provides a convenient API to control Headless Chrome. 
 
-And the last thing we will need is [jest-puppeteer preset](https://github.com/smooth-code/jest-puppeteer), which will allow us to combine these two frameworks. 
+And the last thing we will need is [jest-puppeteer preset](https://github.com/smooth-code/jest-puppeteer), which will allow us to combine these two frameworks together. 
 
 So what you will learn in the end ?  
 
@@ -50,7 +50,7 @@ So what you will learn in the end ?
 
 First you will need download or clone project which I prepared [GitHub Starter Project](https://github.com/Zovi343/E2E_Testing_with_Puppeteer_Final). If you don't prefere to code along, you can download already finished project [GitHub Final Project](https://github.com/Zovi343/E2E_Testing_with_Puppeteer_Final).
 
-#### After donloading Starter Project:
+#### After downloading Starter Project:
 
 * cd into the repository
 ```
@@ -76,7 +76,7 @@ Next thing to do is to install all the necessary tools.
 npm install puppeteer jest jest-puppeteer
 ```
 
-Also we will need to additionally install [jest-cli](https://jestjs.io/docs/en/cli) globally in order to be able to run only one test separately from others.
+Also we will need to additionally install [jest-cli](https://jestjs.io/docs/en/cli) globally in order to be able to run only single test separately from others.
 
 ```
 npm install -g jest-cli
@@ -108,8 +108,7 @@ const puppeteer = require('puppeteer');
     }
 })();
 ```
-
-With [puppeteer.launch()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-puppeteerlaunchoptions) on line 5 we are launching new Chromium instance, in options we specify `headless: false`, which means that browser won't run in the headless mode (basically without graphical user interface). On the next line we open new page and then on the line 7 we navigate to http://localhost:8080. `waitUntil: 'domcontentloaded'` option on line 7 specify that our code will wait till DOM content is loaded. Line 9 just makes app to stop for 5 seconds, so you can observe it. And on line 11 we close the browser.
+As you can probably already see Puppeteer relies heavily on promises. So we will be always using async/await with Puppeteer and its methos. With [puppeteer.launch()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-puppeteerlaunchoptions) on line 5 we are launching new Chromium instance, in options we specify `headless: false`, which means that browser won't run in the headless mode (basically without graphical user interface). On the next line we open new page and then on the line 7 we navigate to http://localhost:8080. `waitUntil: 'domcontentloaded'` option on line 7 specify that our code will wait till DOM content is loaded. Line 9 just makes app to stop for 5 seconds, so you can observe it. And on line 11 we close the browser.
 
 ## Integrating Puppeteer with Jest
 Now we will integrate Puppeteer with Jest. But why is this necessary in the first place? We do this, because Puppeteer on itself isn't testing framework, it is tool which allow us to control Headless Chrome. So in order to make our work easier, we combine it with Jest, which provides great testing utilities.
@@ -129,7 +128,7 @@ module.exports = {
 }
 ```
 
-On line 2 we specify `jest-puppeteer` preset, which will allow us to use Puppeteer with Jest. In `globals` we declare variables, which will be available in our whole test suite. And in `testMatch` we are only saying in which folder and for which files Jest should look for. 
+On line 2 we specify `jest-puppeteer` preset, which will allow us to use Puppeteer with Jest. In `globals` we declare variables, which will be available in our whole test suite. And in `testMatch` we are only saying in which folder and for which files Jest should be looking for. 
 
 #### Configuration for jest-puppeteer preset
 * create `jest-puppeteer.config.js` file in the root of the project and use this code:
@@ -141,16 +140,16 @@ module.exports = {
     }
 }
 ```
-Here in `lauch` object we can specify options for Chromium instance, which will be launched before our test suite and which will be accessible to all our test files. So you can specify all the options, which you would normally pass here [puppeteer.launch()](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#puppeteerlaunchoptions). So on line 3 we are specifying if Puppeteer should lunch Browser in `headless` mode or not. And on line 4 we are doing the same, but now with `slowMo`, which slows Puppeteer down by milliseconds that we specify. So we will be able to observe what it actually does, this option is great for debugging.
+Here in `lauch` object we can specify options for Chromium instance, which will be launched before our test suite and which will be accessible to all our test files. So you can specify all the options, which you would normally pass to [puppeteer.launch()](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#puppeteerlaunchoptions). So on line 3 we are specifying if Puppeteer should lunch Browser in `headless` mode or not. And on line 4 we are doing the same, but now with `slowMo`, which slows Puppeteer down by milliseconds that we specify. So we will be able to observe what it actually does. Both these options are great for debugging.
 
 ## Writing Our Tests
 
 ### Testing Frontend
 With everything set up we can finally start writing our tests. Let's start with something simple. 
 
-* in `src/test/` you will find file named `frontend.test.js` into which you need to write this code to:
+* in `src/test/` you will find file named `frontend.test.js` into which you need to write this code:
 ```javascript {.line-numbers}
-const timeout = process.env.SLOWMO ? 70000 : 20000;
+const timeout = process.env.SLOWMO ? 30000 : 10000;
 
 beforeAll(async () => {
     await page.goto(URL, {waitUntil: 'domcontentloaded'});
@@ -173,7 +172,7 @@ And you should see something like this:
 
 ![test-result](https://raw.githubusercontent.com/Zovi343/E2E_Testing_with_Puppeteer_Article/master/img/test_result.png)
 
-Let's analyze this code line by line. On first line we are setting `timeout` variable, which we are later using to specify timeout for our tests(note that we specify this timeout in milliseconds). So as you can see if we are running Puppeteer in slowMo we increase our timeout from 20000 ms to 70000 ms. This ensure that our tests won't timeout. On line 3 we use [beforeAll](https://jestjs.io/docs/en/api#beforeallfn-timeout), this function will run some code before all tests in our file are executed. As you can see we pass to this function an async callback in which we navigate to `URL` which we specified earlier as global variable. But from where we took `page` variable? `page` is actually exposed to each test file in our test suite thanks to jest-puppeteer preset. On line 7 we are using [describe](https://jestjs.io/docs/en/setup-teardown#order-of-execution-of-describe-and-test-blocks) which allow us to group tests together. And then we write our actual test. This test is rather simple on line 9 we get page title and then we use Jest built in assertion library [expect](https://jestjs.io/docs/en/expect) to test if we got correct title.
+Let's analyze this code line by line. On first line we are setting `timeout` variable, which we are later using to specify timeout for our tests(note that we specify this timeout in milliseconds). So as you can see if we are running Puppeteer in slowMo we increase our timeout from 10000 ms to 30000 ms. This ensure that our tests won't timeout. On line 3 we use [beforeAll](https://jestjs.io/docs/en/api#beforeallfn-timeout), this function will run some code before all tests in our file are executed. As you can see we pass to this function an async callback in which we navigate to `URL` which we specified earlier as global variable. But from where we took `page` variable? `page` is actually exposed to each test file in our test suite thanks to jest-puppeteer preset. On line 7 we are using [describe](https://jestjs.io/docs/en/setup-teardown#order-of-execution-of-describe-and-test-blocks) which allow us to group tests together. And then we write our actual test. This test is rather simple on line 9 we get page title and then we use Jest built in assertion library [expect](https://jestjs.io/docs/en/expect) to test if we got correct title.
 
 
 Now let's and another test to this file. Paste this code right under the first test in our describe block.
