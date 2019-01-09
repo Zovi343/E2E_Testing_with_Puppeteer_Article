@@ -69,7 +69,7 @@ npm run dev-server
 
 Great now our application is running on http://localhost:8080. After visiting it you should see something like this: 
 
-![test-result](https://raw.githubusercontent.com/Zovi343/E2E_Testing_with_Puppeteer_Article/master/img/app.png) 
+![app-image](https://raw.githubusercontent.com/Zovi343/E2E_Testing_with_Puppeteer_Article/master/img/app.png) 
 Next thing to do is to install all the necessary tools.
 
 ```
@@ -171,7 +171,7 @@ npm run test
 ```
 And you should see something like this:
 
-![test-result](https://raw.githubusercontent.com/Zovi343/E2E_Testing_with_Puppeteer_Article/master/img/test_result.png)
+![test-result-image](https://raw.githubusercontent.com/Zovi343/E2E_Testing_with_Puppeteer_Article/master/img/test_result.png)
 
 Let's analyze this code line by line. On first line we are setting `timeout` variable, which we are later using to specify timeout for our tests (note that we specify this timeout in milliseconds). So as you can see if we are running Puppeteer in slowMo we increase our timeout from 10000 ms to 30000 ms. This ensure that our tests won't timeout. On line 3 we use [beforeAll](https://jestjs.io/docs/en/api#beforeallfn-timeout), this function will run some code before all tests in our file are executed. As you can see we pass to this function an async callback in which we navigate to `URL` which we specified earlier as global variable. But from where we took `page` variable? `page` is actually exposed to each test file in our test suite thanks to jest-puppeteer preset. On line 7 we are using [describe](https://jestjs.io/docs/en/setup-teardown#order-of-execution-of-describe-and-test-blocks) which allow us to group tests together. And then we write our actual test. This test is rather simple on line 9 we get page title and then we use Jest built in assertion library [expect](https://jestjs.io/docs/en/expect) to test if we got correct title.
 
@@ -189,7 +189,9 @@ test('Header of the page', async () => {
 On line 2 we are using [page.$()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pageselector) which allow us to select HTML element by normal CSS selector. And it returns [ElementHandle](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-class-elementhandle) which we can later use to get innerHTML of this element. On line 3 we then use [page.evaluate()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pageevaluatepagefunction-args), which evaluates a function in the page context, to basically evaluate our handle in page context and that way get access to its innerHTML.
 
 ### Form Tests
-With some basic tests already written we will now try to test one form which I have prepared for us. 
+With some basic tests already written we will now try to test one form which I have prepared for us.
+
+![form-image]()
 
 * rename `form.test.js.example` in `src/test` to `form.test.js` and paste this code in to describe block which is alredy coded there:
 ```javascript {.line-numbers}
