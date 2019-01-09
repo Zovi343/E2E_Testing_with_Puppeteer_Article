@@ -191,7 +191,7 @@ On line 2 we are using [page.$()](https://pptr.dev/#?product=Puppeteer&version=v
 ### Form Tests
 With some basic tests already written we will now try to test one form which I have prepared for us.
 
-![form-image]()
+![form-image](https://raw.githubusercontent.com/Zovi343/E2E_Testing_with_Puppeteer_Article/master/img/form.png)
 
 * rename `form.test.js.example` in `src/test` to `form.test.js` and paste this code in to describe block which is alredy coded there:
 ```javascript {.line-numbers}
