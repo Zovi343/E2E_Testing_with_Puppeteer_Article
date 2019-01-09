@@ -244,7 +244,7 @@ const devices = require('puppeteer/DeviceDescriptors');
 And then add this test into our describe block: 
 ```javascript {.line-numbers}
 test('Emulate Mobile Device And take screenshot', async () => {
-    await page.goto(`${URL}/not-found`, {waitUntil: 'domcontentloaded'})
+    await page.goto(`${URL}/login`, {waitUntil: 'domcontentloaded'})
     const iPhonex = devices['iPhone X'];
     await page.emulate(iPhonex);
     await page.setViewport({ width: 375, height: 812, isMobile: true});
