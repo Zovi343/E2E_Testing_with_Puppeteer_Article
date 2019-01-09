@@ -14,11 +14,11 @@ Requirements for this tutorial are:
 
 So let me first say few words about testing in general. Testing is crucial part of every software development process. It prevents regression and overall speed up development process. There are basically three main types of tests:  
 
-* Unit testing – With unit tests we are testing small isolated pieces of our code. 
+* [Unit testing](https://smartbear.com/learn/automated-testing/what-is-unit-testing/) – With unit tests we are testing small isolated pieces of our code. 
 
-* Integration testing – In this type of testing we combine and test individual units and test them as a group. 
+* [Integration testing](https://smartbear.com/learn/automated-testing/what-is-integration-testing/) – In this type of testing we combine and test individual units and test them as a group. 
 
-* End-to-End(E2E) testing –  Is defined as the testing of complete functionality of some application. 
+* [End-to-End(E2E) testing](https://smartbear.com/learn/automated-testing/end-to-end-testing/) –  Is defined as the testing of complete functionality of some application. 
 
 Throughout this tutorial we will be focusing on E2E testing as the title suggests. We will be writing our tests with two powerful tools, which are Jest and Pupeeteer: 
 
