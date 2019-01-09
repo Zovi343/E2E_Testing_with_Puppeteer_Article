@@ -1,6 +1,6 @@
 #End-to-End testing with Puppeteer and Jest 
 
-In this article I will cover very brief introduction to testing and then dive deeper into End-to-End testing using Jest and Puppeteer, which are very popular javascript frameworks.  
+In this article I will cover very briefly introduction to testing and then dive deeper into End-to-End testing using Jest and Puppeteer, which are very popular javascript frameworks used for testing.  
 
 Requirements for this tutorial are: 
 
@@ -22,7 +22,7 @@ So let me first say few words about testing in general. Testing is crucial part 
 
 Throughout this tutorial we will be focusing on E2E testing as the title suggests. We will be writing our tests with two powerful tools, which are Jest and Pupeeteer: 
 
-* [Jest](https://jestjs.io/): Is fully featured testing framework which is developed by Facebook. It needs very little configuration and works basically out of the box. 
+* [Jest](https://jestjs.io/): Is fully featured testing framework, which is developed by Facebook. It needs very little configuration and works basically out of the box. 
 
 * [Puppeteer](https://pptr.dev/): A Node.js library created by Google, which provides a convenient API to control Headless Chrome. 
 
@@ -48,7 +48,7 @@ So what you will learn in the end ?
 
 ##Project Setup
 
-First you will need download or clone project which I prepared [GitHub Starter Project](https://github.com/Zovi343/E2E_Testing_with_Puppeteer_Final). If you don't prefere to code along, you can donload already finished project [GitHub Final Project](https://github.com/Zovi343/E2E_Testing_with_Puppeteer_Final).
+First you will need download or clone project which I prepared [GitHub Starter Project](https://github.com/Zovi343/E2E_Testing_with_Puppeteer_Final). If you don't prefere to code along, you can download already finished project [GitHub Final Project](https://github.com/Zovi343/E2E_Testing_with_Puppeteer_Final).
 
 ####After donloading Starter Project:
 
@@ -67,16 +67,16 @@ npm install
 npm run dev-server
 ```
 
-Great now our application is running on http://localhost:8080. After visiting it you should see something like this:
-![test-result](https://raw.githubusercontent.com/Zovi343/E2E_Testing_with_Puppeteer_Article/master/img/app.png)
+Great now our application is running on http://localhost:8080. After visiting it you should see something like this: 
 
-Next thing to do do is to install all the neccessary tools.
+![test-result](https://raw.githubusercontent.com/Zovi343/E2E_Testing_with_Puppeteer_Article/master/img/app.png) 
+Next thing to do is to install all the necessary tools.
 
 ```
 npm install puppeteer jest jest-puppeteer
 ```
 
-Also we will need to additionaly install [jest-cli](https://jestjs.io/docs/en/cli) globaly in order to be able to run only one test separetly from others.
+Also we will need to additionally install [jest-cli](https://jestjs.io/docs/en/cli) globally in order to be able to run only one test separately from others.
 
 ```
 npm install -g jest-cli
@@ -112,10 +112,10 @@ const puppeteer = require('puppeteer');
 With [puppeteer.launch()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-puppeteerlaunchoptions) on line 5 we are launching new Chromium instance, in options we specify `headless: false`, which means that browser won't run in the headless mode (basically without graphical user interface). On the next line we open new page and then on the line 7 we navigate to http://localhost:8080. `waitUntil: 'domcontentloaded'` option on line 7 specify that our code will wait till DOM content is loaded. Line 9 just makes app to stop for 5 seconds, so you can observe it. And on line 11 we close the browser.
 
 ##Integrating Puppeteer with Jest
-Now we will integrate Puppeteer with Jest. But why is this neccessary in the first place? We do this, because Puppeteer on itself isn't testing framework, it is tool which allow us to control Headless Chrome. So in order to make our work easier, we combine it with Jest, which provides great testing utilities.
+Now we will integrate Puppeteer with Jest. But why is this necessary in the first place? We do this, because Puppeteer on itself isn't testing framework, it is tool which allow us to control Headless Chrome. So in order to make our work easier, we combine it with Jest, which provides great testing utilities.
 
 ####Jest Configuration
-* create `jest.config.js` file in the root of the project and paste this code in
+* create `jest.config.js` file in the root of the project and paste this code in:
 ```javascript {.line-numbers}
 module.exports = {
     preset: "jest-puppeteer",
@@ -132,7 +132,7 @@ module.exports = {
 On line 2 we specify `jest-puppeteer` preset, which will allow us to use Puppeteer with Jest. In `globals` we declare variables, which will be available in our whole test suite. And in `testMatch` we are only saying in which folder and for which files Jest should look for. 
 
 ####Configuration for jest-puppeteer preset
-* create `jest-puppeteer.config.js` file in the root of the project and use this code
+* create `jest-puppeteer.config.js` file in the root of the project and use this code:
 ```javascript {.line-numbers}
 module.exports = {
     launch: {
@@ -146,9 +146,9 @@ Here in `lauch` object we can specify options for Chromium instance, which will 
 ## Writing Our Tests
 
 ###Testing Frontend
+With everything set up we can finally start writing our tests. Let's start with something simple. 
 
-With everything set up we can finally start writing our tests. Let's start with something simple:
-* in `src/test/` you will find file named `frontend.test.js` into wich you need to write this code to:
+* in `src/test/` you will find file named `frontend.test.js` into which you need to write this code to:
 ```javascript {.line-numbers}
 const timeout = process.env.SLOWMO ? 70000 : 20000;
 
@@ -173,10 +173,8 @@ And you should see something like this:
 
 ![test-result](https://raw.githubusercontent.com/Zovi343/E2E_Testing_with_Puppeteer_Article/master/img/test_result.png)
 
-Let's analyze this code line by line. On first line we are setting `timeout` variable, which we are later using to specify timeout for our tests(note that we specify this timeout in milliseconds). So as you can see if we are running Puppeteer in slowMo we increase our timeout from 20000 ms to 70000 ms. This ensure that our tests won't timeout. 
-On line 3 we use [beforeAll](https://jestjs.io/docs/en/api#beforeallfn-timeout), this function will run some code before all tests in our file are executed. As you can see we pass to this function an async callback in which we navigate to `URL` which we specified earlier as global variable. But from where we took `page` variable? `page` is actually exposed to each test file in our test suite thanks to jest-puppeteer preset.
-On line 7 we are using [describe](https://jestjs.io/docs/en/setup-teardown#order-of-execution-of-describe-and-test-blocks) which allow us to group tests together.
-And then we write our actual test. This test is rather simple on line 9 we get page title and then we use Jest built in assertion library [expect](https://jestjs.io/docs/en/expect) to test if we got correct title.
+Let's analyze this code line by line. On first line we are setting `timeout` variable, which we are later using to specify timeout for our tests(note that we specify this timeout in milliseconds). So as you can see if we are running Puppeteer in slowMo we increase our timeout from 20000 ms to 70000 ms. This ensure that our tests won't timeout. On line 3 we use [beforeAll](https://jestjs.io/docs/en/api#beforeallfn-timeout), this function will run some code before all tests in our file are executed. As you can see we pass to this function an async callback in which we navigate to `URL` which we specified earlier as global variable. But from where we took `page` variable? `page` is actually exposed to each test file in our test suite thanks to jest-puppeteer preset. On line 7 we are using [describe](https://jestjs.io/docs/en/setup-teardown#order-of-execution-of-describe-and-test-blocks) which allow us to group tests together. And then we write our actual test. This test is rather simple on line 9 we get page title and then we use Jest built in assertion library [expect](https://jestjs.io/docs/en/expect) to test if we got correct title.
+
 
 Now let's and another test to this file. Paste this code right under the first test in our describe block.
 ```javascript {.line-numbers}
@@ -191,9 +189,9 @@ test('Header of the page', async () => {
 On line 2 we are using [page.$()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pageselector) which allow us to select HTML element by normal CSS selector. And it returns [ElementHandle](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-class-elementhandle) which we can later use to get innerHTML of this element. On line 3 we then use [page.evaluate()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pageevaluatepagefunction-args), which evaluates a function in the page context, to basically evaluate our handle in page context and that way get access to its innerHTML.
 
 ###Form Tests
-With some basic tests alredy written we will now try to test one form which I have prepered for us. 
+With some basic tests already written we will now try to test one form which I have prepared for us. 
 
-* rename `form.test.js.example` in `src/test` to `form.test.js` and paste this code in to describe block which is alredy coded there
+* rename `form.test.js.example` in `src/test` to `form.test.js` and paste this code in to describe block which is alredy coded there:
 ```javascript {.line-numbers}
     test('Submit form with valid data', async () => {
         await page.click('[href="/login"]');
@@ -214,9 +212,9 @@ With some basic tests alredy written we will now try to test one form which I ha
     }, timeout);
 ```
 
-So first thing we do in this snippet is that we click on Login link in navigation. We use [page.click()]() for this, which takes as an argument a CSS selector. Since we navigated to different URL we use [page.waitForSelector()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pagewaitforselectorselector-options) to wait till our form will be rendered by DOM, so we can start to do something with it. Then we use [page.type()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pagetypeselector-text-options) method to fill out our form, this method takes two argument a CSS selector and a text, which we want to type. We then proceed by submitting our form, waitting for success message to appear and getting its innerHTML.
+So first thing we do in this snippet is that we click on Login link in navigation. We use [page.click()]() for this, which takes as an argument a CSS selector. Since we navigated to different URL we use [page.waitForSelector()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pagewaitforselectorselector-options) to wait till our form will be rendered by DOM, so we can start to do something with it. Then we use [page.type()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pagetypeselector-text-options) method to fill out our form, this method takes two argument a CSS selector and a text, which we want to type. We then proceed by submitting our form, waiting for success message to appear and getting its innerHTML.
 
-If you now run `npm run test` you should have three passign tets.
+If you now run `npm run test` you should have three passing tets.
 
 ###Taking Screenshots on Desktop and Mobile
 With our form and frontend tested, we can turn our attention to screenshot taking and emulation of mobile devices in Puppeteer.
@@ -256,7 +254,7 @@ test('Emulate Mobile Device And take screenshot', async () => {
 }, timeout);
 ```
 
-This code is simillar to the previous one. The difference that now we are requiring devices from `puppeteer/DeviceDescriptors` then we access iPhone X on line 3 from devices object. On the next line we emulate this device with [page.emulate()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pageemulateoptions). And then we simply take screenshot as in the previous code snippet.
+This code is similar to the previous one. The difference that now we are requiring devices from `puppeteer/DeviceDescriptors` then we access iPhone X on line 3 from devices object. On the next line we emulate this device with [page.emulate()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pageemulateoptions). And then we simply take screenshot as in the previous code snippet.
 
 ###Request Interception and Targeting Newly Opened Page
 So now we will look into some more advanced features as is request interception. And I will also cover how to target newly opened opened page in headless browser.
@@ -278,9 +276,9 @@ So now we will look into some more advanced features as is request interception.
     }, timeout);
 ```
 
-Here on the first line we are [page.setRequestInterception()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pagesetrequestinterceptionvalue) to `true`, which enables us to intercept outgoig requests.On lines 3-9 we are telling to Puppeteer to abort every request, which ends with `'.png'`. So thanks to this our page won't be able to load the image, which is currently on the homepage, well at least after we reload page, because the image was loaded before we set request interception. Then on line 10 will reload our page with [page.reload()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pagereloadoptions), so we will be able to see that image is not displayed. But how actually? Thats what commented code on line 11 is for, but I will come back to this in debugging section. And on line 12 we set [page.setRequestInterception()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pagesetrequestinterceptionvalue) to false, which is very IMPORTANT! Because if you don't set it to `false` request interception will be set for all tests, which comes after this one and that can cause you lot of problems!
+Here on the first line we are [page.setRequestInterception()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pagesetrequestinterceptionvalue) to `true`, which enables us to intercept outgoing requests. On lines 3-9 we are telling to Puppeteer to abort every request, which ends with `'.png'`. So thanks to this our page won't be able to load the image, which is currently on the homepage, well at least after we reload page, because the image was loaded before we set request interception. Then on line 10 will reload our page with [page.reload()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pagereloadoptions), so we will be able to see that image is not displayed. But how actually? That's what commented code on line 11 is for, but I will come back to this in debugging section. And on line 12 we set [page.setRequestInterception()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pagesetrequestinterceptionvalue) to false, which is very IMPORTANT! Because if you don't set it to `false` request interception will be set for all tests, which comes after this one and that can cause you lot of problems!
 
-Now let's add our last test, with wich I will show you how can you target newly opened page in headless browser.
+Now let's add our last test, with which I will show you how can you target newly opened page in headless browser.
 
 * add this test to our describe block:
 ```javascript {.line-numbers}
@@ -296,7 +294,7 @@ Now let's add our last test, with wich I will show you how can you target newly 
     }, timeout);
 ```
 
-On line 2 we are creating new Promise in which we are listening with [browser.on('targetcreated')](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-event-targetcreated) if new target (page) wac created. Again we are able to access `browser`, because it is expose to us thanks to jest-puppeteer preset. Then we click on the link on the homepage, which opens new tab and point to [GitHub Starter Project](https://github.com/Zovi343/E2E_Testing_with_Puppeteer_Final). On line 7 we await Promise, which we created on line 2 and this Promise returns newly opened page. So in the end we are able to get title of this newly opened page and make our assertions.
+On line 2 we are creating new Promise in which we are listening with [browser.on('targetcreated')](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-event-targetcreated) if new target (page) was created. Again we are able to access `browser`, because it is expose to us thanks to jest-puppeteer preset. Then we click on the link on the homepage, which opens new tab and point to [GitHub Starter Project](https://github.com/Zovi343/E2E_Testing_with_Puppeteer_Final). On line 7 we await Promise, which we created on line 2 and this Promise returns newly opened page. So in the end we are able to get title of this newly opened page and make our assertions.
 
 
 ##Debugging Your Test
@@ -311,7 +309,7 @@ HEADLESS="false" SLOWMO=100 npm run test
 ```
 
 ####Running Tests Seperately
-Sometimes you need to run one tests separately from others in order to find bugs. To do this we will use [jest-cli](https://jestjs.io/docs/en/cli), which we installed at the beginnig. Now let's come back to the request interception test, because we weren't really able to observe it.
+Sometimes you need to run one tests separately from others in order to find bugs. To do this we will use [jest-cli](https://jestjs.io/docs/en/cli), which we installed at the beginning. Now let's come back to the request interception test, because we weren't really able to observe it.
 
 Run: 
 ```
@@ -325,7 +323,7 @@ But there was still pretty fast, wasn't it? Let's fix this with `jestPuppeteer.d
 So now you can just uncomment line 11 from code for request interception and you will be clearly able to see that image is not displayed, because request for it was intercepted.
 
 ##Bonus Puppeteer Recorder
-At the end I would like to suggest chrome extenstion, which may come really handy when you are writing tests with puppeteer. It is [Puppeteer Recorder](https://chrome.google.com/webstore/detail/puppeteer-recorder/djeegiggegleadkkbgopoonhjimgehda?hl=en), which allows you to record your browser interactions and generate a Puppeteer script.
+At the end I would like to suggest chrome extension, which may come really handy when you are writing tests with puppeteer. It is [Puppeteer Recorder](https://chrome.google.com/webstore/detail/puppeteer-recorder/djeegiggegleadkkbgopoonhjimgehda?hl=en), which allows you to record your browser interactions and generate a Puppeteer script.
 
 ##Conclusion
-In this article we explored two very popular frameworks Jest and Puppeteer. And we learned that when we combine these two tools to gether we get very poverfull setup for our testing environment. We covered a lot, you learned how to integrate Puppeteer with Jest and then we written different test case. But I can assure that there still lot of thing which we have not covered, so If you feel like it dive into official documentation and lern even more!
+In this article we explored two very popular frameworks Jest and Puppeteer. And we learned that when we combine these two tools together we get very powerfull setup for our testing environment. We covered a lot, you learned how to integrate Puppeteer with Jest, how to write different test cases, how to debug your tests and more. But I can assure that there is still lot of things which we haven't covered, so If you feel like it dive into official documentation and laern even more!
