@@ -12,7 +12,7 @@ Requirements for this tutorial are:
 
 4. Also some knowledge of HTML and CSS may come in handy 
 
-So let me first say few words about testing in general. Testing is crucial part of every software development process. It prevents regression (bugs occurring frequently in our code) and overall speed up development process. There are basically three main types of tests:  
+So let me first say few words about testing in general. Testing is crucial part of every software development process. It prevents regression and overall speed up development process. There are basically three main types of tests:  
 
 * Unit testing – With unit tests we are testing small isolated pieces of our code. 
 
