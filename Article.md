@@ -12,7 +12,7 @@ Requirements for this tutorial are:
 
 4. Also some knowledge of HTML and CSS may come in handy 
 
-So let me first say few words about testing in general. Testing is crucial part of every software development process. It prevents regression and overall speed up development process. There are basically three main types of tests:  
+So let me first say few words about testing in general. Testing is crucial part of every software development process. It can drastically reduce the cost of your project and can increase productivity of your team. There are basically three main types of tests:  
 
 * [Unit testing](https://smartbear.com/learn/automated-testing/what-is-unit-testing/) – With unit tests we are testing small isolated pieces of our code. 
 
@@ -48,7 +48,7 @@ So what you will learn in the end ?
 
 ## Project Setup
 
-First you will need download or clone project which I prepared [GitHub Starter Project](https://github.com/Zovi343/E2E_Testing_with_Puppeteer_Starter.git). If you don't prefere to code along, you can download already finished project [GitHub Final Project](https://github.com/Zovi343/E2E_Testing_with_Puppeteer_Final).
+First you will need to download or clone project which I prepared [GitHub Starter Project](https://github.com/Zovi343/E2E_Testing_with_Puppeteer_Starter.git). If you don't prefere to code along, you can download already finished project [GitHub Final Project](https://github.com/Zovi343/E2E_Testing_with_Puppeteer_Final).
 
 #### After downloading Starter Project:
 
@@ -141,7 +141,7 @@ module.exports = {
     }
 }
 ```
-Here in `lauch` object we can specify options for Chromium instance, which will be launched before our test suite and which will be accessible to all our test files. So you can specify all the options, which you would normally pass to [puppeteer.launch()](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#puppeteerlaunchoptions). So on line 3 we are specifying if Puppeteer should lunch Browser in `headless` mode or not. And on line 4 we are doing the same, but now with `slowMo`, which slows Puppeteer down by milliseconds that we specify. So we will be able to observe what it actually does. Both these options are great for debugging.
+Here in `lauch` object we can specify options for Chromium instance, which will be launched before our tests run and which will be accessible to all our test files. So you can specify all the options, which you would normally pass to [puppeteer.launch()](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#puppeteerlaunchoptions). So on line 3 we are specifying if Puppeteer should lunch Browser in `headless` mode or not. And on line 4 we are doing the same, but now with `slowMo`, which slows Puppeteer down by milliseconds that we specify. So we will be able to observe what it actually does. Both these options are great for debugging.
 
 ## Writing Our Tests
 
@@ -173,7 +173,7 @@ And you should see something like this:
 
 ![test-result-image](https://raw.githubusercontent.com/Zovi343/E2E_Testing_with_Puppeteer_Article/master/img/test_result.png)
 
-Let's analyze this code line by line. On first line we are setting `timeout` variable, which we are later using to specify timeout for our tests (note that we specify this timeout in milliseconds). So as you can see if we are running Puppeteer in slowMo we increase our timeout from 10000 ms to 30000 ms. This ensure that our tests won't timeout. On line 3 we use [beforeAll](https://jestjs.io/docs/en/api#beforeallfn-timeout), this function will run some code before all tests in our file are executed. As you can see we pass to this function an async callback in which we navigate to `URL` which we specified earlier as global variable. But from where we took `page` variable? `page` is actually exposed to each test file in our test suite thanks to jest-puppeteer preset. On line 7 we are using [describe](https://jestjs.io/docs/en/setup-teardown#order-of-execution-of-describe-and-test-blocks) which allow us to group tests together. And then we write our actual test. This test is rather simple on line 9 we get page title and then we use Jest built in assertion library [expect](https://jestjs.io/docs/en/expect) to test if we got correct title.
+Let's analyze this code line by line. On first line we are setting `timeout` variable, which we are later using to specify timeout for our tests (note that we specify this timeout in milliseconds). So as you can see if we are running Puppeteer in slowMo we increase our timeout from 10000 ms to 30000 ms. This ensure that our tests won't timeout. On line 3 we use [beforeAll](https://jestjs.io/docs/en/api#beforeallfn-timeout), this function will run some code before all tests in our file are executed. We pass to this function an async callback in which we navigate to `URL` which we specified earlier as global variable. But from where we took `page` variable? `page` is actually exposed to each test file in our test suite thanks to jest-puppeteer preset. On line 7 we are using [describe](https://jestjs.io/docs/en/setup-teardown#order-of-execution-of-describe-and-test-blocks) which allow us to group tests together. And then we write our actual test. This test is rather simple on line 9 we get page title and then we use Jest built in assertion library [expect](https://jestjs.io/docs/en/expect) to test if we got correct title.
 
 
 Now let's add another test to this file. Paste this code right under the first test in our describe block.
@@ -189,11 +189,11 @@ test('Header of the page', async () => {
 On line 2 we are using [page.$()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pageselector) which allow us to select HTML element by normal CSS selector. And it returns [ElementHandle](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-class-elementhandle) which we can later use to get innerHTML of this element. On line 3 we then use [page.evaluate()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pageevaluatepagefunction-args), which evaluates a function in the page context, to basically evaluate our handle in page context and that way get access to its innerHTML.
 
 ### Form Tests
-With some basic tests already written we will now try to test one form which I have prepared for us.
+With some basic tests already written we will now try to test one simple form which I have prepared for us.
 
 ![form-image](https://raw.githubusercontent.com/Zovi343/E2E_Testing_with_Puppeteer_Article/master/img/form.png)
 
-* rename `form.test.js.example` in `src/test` to `form.test.js` and paste this code in to describe block which is alredy coded there:
+* rename `form.test.js.example` in `src/test` to `form.test.js` and paste this code in to describe block which is alredy there:
 ```javascript {.line-numbers}
     test('Submit form with valid data', async () => {
         await page.click('[href="/login"]');
@@ -232,7 +232,7 @@ With our form and frontend tested, we can turn our attention to screenshot takin
         });
     }, timeout);
 ```
-In this block of code we first set viewport of the page with [page.setViewport()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pagesetviewportviewport) and then we take a screenshot with [page.screenshot()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pagescreenshotoptions) to which we provide some options in order to specify where to store our image, and in what format should we store it. 
+In this block of code we first set viewport of the page with [page.setViewport()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pagesetviewportviewport) and then we take a screenshot with [page.screenshot()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pagescreenshotoptions) to which we provide some options in order to specify where to store our image, and in what format to store it. 
 
 After running `npm run test` you should be able to find an image called home.jpg in `test/screenshots` folder.
 
@@ -278,7 +278,7 @@ So now we will look into some more advanced features as is request interception.
     }, timeout);
 ```
 
-Here on the first line we set [page.setRequestInterception()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pagesetrequestinterceptionvalue) to `true`, which enables us to intercept outgoing requests. On lines 3-9 we are telling Puppeteer to abort every request, which ends with `'.png'`. So thanks to this our page won't be able to load the image, which is currently on the homepage, well at least after we reload page, because the image was loaded before we set request interception. Then on line 10 will reload our page with [page.reload()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pagereloadoptions), so we will be able to see that image is not displayed. But how actually? That's what commented code on line 11 is for, but I will come back to this in debugging section. And on line 12 we set [page.setRequestInterception()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pagesetrequestinterceptionvalue) to `false`, which is very IMPORTANT! Because if you don't set it to `false` request interception will be set to `true` for all other tests, which come after this one and that can cause you lot of problems!
+Here on the first line we set [page.setRequestInterception()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pagesetrequestinterceptionvalue) to `true`, which enables us to intercept outgoing requests. On lines 3-9 we are telling Puppeteer to abort every request, which ends with `'.png'`. So thanks to this our page won't be able to load the image, which is currently on the homepage, well at least after we reload page, because the image was loaded before we set request interception. Then on line 10 we will reload our page with [page.reload()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pagereloadoptions), so we will be able to see that image is not displayed. But how actually? That's what commented code on line 11 is for, but I will come back to this in debugging section. And on line 12 we set [page.setRequestInterception()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pagesetrequestinterceptionvalue) to `false`, which is very IMPORTANT! Because if you don't set it to `false` request interception will be set to `true` for all other tests, which come after this one and that can cause you lot of problems!
 
 Now let's add our last test, with which I will show you how you can target newly opened page with Puppeteer in headless browser.
 
@@ -300,10 +300,10 @@ On line 2 we are creating new Promise in which we are listening with [browser.on
 
 
 ## Debugging Your Test
-Many times you find yourself with lot of failing tests and it can be really hard to find out what is going on only from terminal. That's why I will show you some ways of debugging your tests.
+Many times you find yourself with lot of failing tests and it can be really hard to find out what is going on only from the terminal. That's why I will show you some ways of debugging your tests.
 
 #### Headless and SlowMo options
-So for debugging you want to launch Puppeteer in headless mode and also in slow motion, so you will be able to actually see what is going on. Since we set these two options in `jest-puppeteer.config.js` all we need to do now is set two environment variables when running our tests from terminal.
+So for debugging you want to launch Puppeteer in headless mode and also in slow motion, so you will be able to actually see what is going on. Since we set these two options in `jest-puppeteer.config.js` all we need to do now is to set two environment variables when running our tests from the terminal.
 
 Run:
 ```
@@ -318,11 +318,11 @@ Run:
 HEADLESS="false" SLOWMO=100 jest -t 'Intercept Request'
 ```
 
-But there was still pretty fast, wasn't it? Let's fix this with `jestPuppeteer.debug()`.
+But that was still pretty fast, wasn't it? Let's fix this with `jestPuppeteer.debug()`.
 
 #### jestPuppeteer.debug()
 [jestPuppeteer.debug()](https://github.com/smooth-code/jest-puppeteer/blob/master/README.md#put-in-debug-mode) suspends test execution and gives you time to see what is going on in the browser. In order to continue execution you just need to press Enter.
-So now you can just uncomment line 11 from code for request interception and run the previous. And you will be clearly able to see that image on the homepage is not displayed, because request for it was intercepted.
+So now you can just uncomment line 11 from code for request interception and run the previous command. And you will be clearly able to see that image on the homepage is not displayed, because request for it was intercepted.
 
 ## Bonus Puppeteer Recorder
 At the end I would like to suggest you one chrome extension, which may come really handy when you are writing tests with puppeteer. It is [Puppeteer Recorder](https://chrome.google.com/webstore/detail/puppeteer-recorder/djeegiggegleadkkbgopoonhjimgehda?hl=en), which allows you to record your browser interactions and generate a Puppeteer script.
