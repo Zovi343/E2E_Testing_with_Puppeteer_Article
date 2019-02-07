@@ -24,7 +24,7 @@ Počas tohto tutoriálu sa budem sústreďovať na E2E testovanie ako napovedá 
 
 * [Jest](https://jestjs.io/): Je plne vybavený testovací framework, ktorý je vyvýjaný Facebookom. Nepotrebuje v podstate žiadnu konfiguráciu, čiže funguje takmer ihneď po inštalácii.
 
-* [Puppeteer](https://pptr.dev/): Knižnica  pre Node.js vytvorená Googlom, ktorá poskytuje prktickú API, pomocou ktorej môžeme ovládať [Headless Chrome](https://developers.google.com/web/updates/2017/04/headless-chrome). 
+* [Puppeteer](https://pptr.dev/): Knižnica  pre Node.js vytvorená Googlom, ktorá poskytuje praktickú API, pomocou ktorej môžeme ovládať [Headless Chrome](https://developers.google.com/web/updates/2017/04/headless-chrome). 
 
 A posledná vec, ktorú budeme potrebovať, je [jest-puppeteer preset](https://github.com/smooth-code/jest-puppeteer), ktorý nám umožní skobinovať tieto dva frameworky. 
 
@@ -48,7 +48,7 @@ Takže čo sa vlastne dnes v závere naučíte ?
 
 ## Project Setup
 
-Najprv si budete potrebovať stiahnuť projekt, ktorý som pripravil [GitHub Starter Project](https://github.com/Zovi343/E2E_Testing_with_Puppeteer_Starter.git).Ak nemáte zaújem programovať počas tutorialu môžete si stiahnuť finálny projekt [GitHub Final Project](https://github.com/Zovi343/E2E_Testing_with_Puppeteer_Final).
+Najprv si budete potrebovať stiahnuť projekt, ktorý som pripravil [GitHub Starter Project](https://github.com/Zovi343/E2E_Testing_with_Puppeteer_Starter.git). Ak nemáte zaújem programovať počas tutorialu môžete si stiahnuť finálny projekt [GitHub Final Project](https://github.com/Zovi343/E2E_Testing_with_Puppeteer_Final).
 
 #### Po stiahnutí projektu:
 
@@ -70,6 +70,7 @@ npm run dev-server
 Výborne teraz naša aplikácia beží na http://localhost:8080. Po otvorení by ste mali vidieť niečo takéto: 
 
 ![app-image](https://raw.githubusercontent.com/Zovi343/E2E_Testing_with_Puppeteer_Article/master/img/app.png) 
+
 Ďalšia vec, ktorú budeme potrebovať spraviť, je nainštalovať všetky nevyhnutné nástroje.
 
 ```
@@ -110,7 +111,7 @@ const puppeteer = require('puppeteer');
 })();
 ```
 Ako možete už pravdepodobne vidieť Puppeteer spolieha výhradne na promises, takže ho budeme vždy používať s async/await. 
-S [puppeteer.launch()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-puppeteerlaunchoptions)na riadku 5 spúšťame novú inštanciu [Chromia](https://www.chromium.org/), v možnostiach špecifikujeme `headless: false`, čo znamená, že prehliadač sa nespustí v headless móde ( v podstate bez grafického používateľského rozhrania). Na ďalšiom riadku otvárame novú stránku a potom na riadku 7 navigujeme na http://localhost:8080. `waitUntil: 'domcontentloaded'`  možnosť na riadku 7 špecifikuje, že náš kód budem čakať až pokiaľ DOM content nebude načítaný. Riadok 9 len spôsobí, že aplikácia sa zastaví na 5 sekúnd, takže bude môcť vidieť, čo sa deje. A na riadku 11 zatvárame prehliadač. 
+S [puppeteer.launch()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-puppeteerlaunchoptions) na riadku 5 spúšťame novú inštanciu [Chromia](https://www.chromium.org/), v argumentoch špecifikujeme `headless: false`, čo znamená, že prehliadač sa nespustí v headless móde ( v podstate bez grafického používateľského rozhrania). Na ďalšiom riadku otvárame novú stránku a potom na riadku 7 navigujeme na http://localhost:8080. `waitUntil: 'domcontentloaded'`  argument na riadku 7 špecifikuje, že náš kód bude čakať až pokiaľ DOM content nebude načítaný. Riadok 9 len spôsobí, že aplikácia sa zastaví na 5 sekúnd, takže bude môcť vidieť, čo sa deje. A na riadku 11 zatvárame prehliadač. 
 
 ## Integrácia Puppeteer s Jest
 Teraz zintegrujeme Puppeteer s Jest. Ale prečo to vlastne potrebujeme ? Robíme to, preto že Pupeteer sám o sebe nie je testovací framework, je to nástroj, ktorý nám umožňuje kontrolovať [Headless Chrome](https://developers.google.com/web/updates/2017/04/headless-chrome). Takže aby sme si uľahčili našu prácu, skombinujeme Puppeteer s Jest, ktorý nám poskytuje veľmi užitočné testovacie utilities. 
@@ -130,7 +131,7 @@ module.exports = {
 }
 ```
 
-Na riadku 2 špecifikujeme `jest-puppeteer`ktorý nám umožní použiť Jest s Pupeteer. V `globals`deklarujeme premenné, ktoré budú dostupné vo všetkých testoch. A v  `testMatch` jednoducho hovoríme, v ktorých zložkách má Jest hľadať súborý.  
+Na riadku 2 špecifikujeme `jest-puppeteer` preset, ktorý nám umožní použiť Jest s Pupeteer. V `globals`deklarujeme premenné, ktoré budú dostupné vo všetkých testoch. A v  `testMatch` jednoducho hovoríme, v ktorých zložkách má Jest hľadať súborý.  
 
 #### Configuration for jest-puppeteer preset
 * vytvorte `jest-puppeteer.config.js` súbor v root directory nášho projektu a použite tento kód :
@@ -142,7 +143,7 @@ module.exports = {
     }
 }
 ```
-V `lauch`  objekte špecifikujeme možnosti pre inštanciu [Chromium](https://www.chromium.org/), ktorá bude spustená predtým ako pobežia naše testy a bude dostupná vo všetkých našich testovacích súboroch, takže tu môžete zadať všetky možnosti, ktoré by ste normálne dali do [puppeteer.launch()](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#puppeteerlaunchoptions).Na riadku 3 špecifikujeme, či by mal Puppeteer spustiť prehliadač v  `headless` mode alebo nie. A na riadku 4 mu hovoríme aby bežal v `slowMo`, čo spomalý Puppeteer o milisekundy, ktoré špecifikujeme, takže budeme môcť pozorovať čo vlastne robí. Obidve možnosti, ktoré tu definujeme sú skvelé pre debugovanie. 
+V `lauch`  objekte špecifikujeme argumenty pre inštanciu [Chromia](https://www.chromium.org/), ktorá bude spustená predtým ako pobežia naše testy a bude dostupná vo všetkých našich testovacích súboroch, takže tu môžete zadať všetky argumenty, ktoré by ste normálne dali do [puppeteer.launch()](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#puppeteerlaunchoptions). Na riadku 3 špecifikujeme, či by mal Puppeteer spustiť prehliadač v  `headless` móde alebo nie. A na riadku 4 mu hovoríme aby bežal v `slowMo`, čo spomalý Puppeteer o milisekundy, ktoré špecifikujeme, takže budeme môcť pozorovať čo vlastne robí. Obidve možnosti, ktoré tu definujeme sú skvelé pre debugovanie. 
 
 ## Písanie Našich testov
 
@@ -174,7 +175,7 @@ A mali by ste vidieť niečo takéto::
 
 ![test-result-image](https://raw.githubusercontent.com/Zovi343/E2E_Testing_with_Puppeteer_Article/master/img/test_result.png)
 
-Poďme zanalyzovať tento kód po jednotlivých riadkoch. Na prvom riadku nastavujeme `timeout` premennú, ktorú neskôr používame na to aby sme špecifikovali timeout pre naše testy(nezabudnite, že špecifikujeme tento timeout v milisekundách). Ako môžete vidieť, ak Puppeteer beží v slowMo, zvýšime náš timeout z 10000 ms na 30000ms. Toto zaistí, že naše testy nezlyhajú kvôli timeoutu. Na riadku š používame [beforeAll](https://jestjs.io/docs/en/api#beforeallfn-timeout)premennú, ktorú neskôr používame na to aby sme špecifikovali timeout pre naše testy(nezabudnite, že špecifikujeme tento timeout v milisekundách). Ako môžete vidieť, ak Puppeteer beží v slowMo, zvýšime náš timeout z 10000 ms na 30000ms. Toto zaistí, že naše testy nezlyhajú kvôli timeoutu. Na riadku š používame `URL` , ktorú sme  špecifikovali predtým  ako globálnu premennú `page`  premennú? Tá je dostupná tiež vo všetkých testovacích súboroch vďaka `jest-puppeteer` preset. Na riadku 7 používame [describe](https://jestjs.io/docs/en/setup-teardown#order-of-execution-of-describe-and-test-blocks) , ktoré nám umožňuje zoskupovať testy, a v ňom už potom píšeme naše samotné testy. Tento test je celkom jednoduchý, na riadku 9 získavame title stránky a potom používame assertion knižnicu [expect](https://jestjs.io/docs/en/expect), ktorá je vstavaná v [Jest](https://jestjs.io/). 
+Poďme zanalyzovať tento kód po jednotlivých riadkoch. Na prvom riadku nastavujeme `timeout` premennú, ktorú neskôr používame na to aby sme špecifikovali timeout pre naše testy (nezabudnite, že špecifikujeme tento timeout v milisekundách). Ako môžete vidieť, ak Puppeteer beží v slowMo, zvýšime náš timeout z 10000 ms na 30000ms. Toto zaistí, že naše testy nezlyhajú kvôli timeoutu. Na riadku 3 používame [beforeAll](https://jestjs.io/docs/en/api#beforeallfn-timeout), táto funkcia vykoná nejaký kód predtým ako pobežia všetky testy v tomto súbore. Tejto funkcii dávame ako parameter async callback, v ktoróm navigujeme na `URL` , ktorú sme  špecifikovali predtým ako globálnu premennú. Ale odkiaľ sme zobrali `page`  premennú? Tá je dostupná tiež vo všetkých testovacích súboroch vďaka `jest-puppeteer` preset. Na riadku 7 používame [describe](https://jestjs.io/docs/en/setup-teardown#order-of-execution-of-describe-and-test-blocks) , ktoré nám umožňuje zoskupovať testy, a v ňom už potom píšeme naše samotné testy. Tento test je celkom jednoduchý, na riadku 9 získavame title stránky a potom používame assertion knižnicu [expect](https://jestjs.io/docs/en/expect), ktorá je vstavaná v [Jest](https://jestjs.io/), na to aby sme overili, či sme dostali správny výsledok. 
 
 
 Skúsme teraz pridať ďalší test do tochto súboru. Vložte tento kód hneď pod náš prvý test v describe bloku:
@@ -187,7 +188,7 @@ test('Header of the page', async () => {
     }, timeout);
 ```
 
-Na druhom riadku použivame [page.$()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pageselector) , čo nám umožňuje vybrať HTML element normálnym CSS selektorom, a táto funkcia nám vráti [ElementHandle](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-class-elementhandle) , ktorú neskôr použijeme nato, aby sme získali innerHTML tohto elementu. Na riadku 3 potom používame [page.evaluate()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pageevaluatepagefunction-args) ,ktorá vyhodnotí funkciu v kontexte stránky), a tým pádom získame prístup k innerHTML naše [ElementHandle](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-class-elementhandle).
+Na druhom riadku použivame [page.$()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pageselector) funkciu, kotrá nám umožňuje vybrať HTML element pomocou normálneho CSS selektoru, a nakoniec nám táto funkcia  vráti [ElementHandle](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-class-elementhandle) , ktorú neskôr použijeme nato, aby sme získali innerHTML tohto elementu. Na riadku 3 potom používame [page.evaluate()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pageevaluatepagefunction-args) ,ktorá vyhodnotí funkciu v kontexte stránky, a tým pádom získame prístup k innerHTML naše [ElementHandle](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-class-elementhandle).
 
 ### Form Tests
 Teraz keď už máme nejaké základné testy za nami, skúsime napísať test pre jednoduchý formulár, ktorý som pre nás pripravil.
@@ -215,7 +216,7 @@ Teraz keď už máme nejaké základné testy za nami, skúsime napísať test p
     }, timeout);
 ```
 
-Prvá vec ktorú tu robíme, je že klikneme na Login link v navigácii. Používame na to [page.click()]() funkciu, ktorá berie jeden argument CSS selektor. Keďže sme navigovali na inú URL používame [page.waitForSelector()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pagewaitforselectorselector-options), na to aby sme počkali, kým DOM zobrazí náš formulár, takže  budeme s ním môcť interagovať. Potom používame [page.type()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pagetypeselector-text-options) metódu, aby sme vyplnil náš formulár táto metóda berie dva argumenty CSS selektor a text, ktorý chceme napísať. Potom klikáme na submit button a čakáme kým sa objaví správa o úspešnom podaní formulára. 
+Prvá vec ktorú tu robíme, je že klikneme na Login link v navigácii. Používame na to [page.click()]() funkciu, ktorá berie jeden argument CSS selektor. Keďže sme navigovali na inú URL používame [page.waitForSelector()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pagewaitforselectorselector-options), na to aby sme počkali, kým DOM zobrazí náš formulár, takže budeme s ním môcť interagovať. Potom používame [page.type()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pagetypeselector-text-options) metódu, aby sme vyplnil náš formulár táto metóda berie dva argumenty CSS selektor a text, ktorý chceme napísať. Potom klikáme na submit button a čakáme kým sa objaví správa o úspešnom podaní formulára. 
 
 Ak teraz zadáte `npm run test`, mali by ste vidieť tri úspešne testy .
 
@@ -235,9 +236,9 @@ Formulár a frontend je otestovaný, takže môžeme obrátiť našu pozornosť 
 ```
 V tomto kóde najprv nastavíme viewport našej stránky s [page.setViewport()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pagesetviewportviewport)  a potom spravíme screenshot s funkciou [page.screenshot()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pagescreenshotoptions), ktorej poskytujeme nejaké argumenty, aby sme špecifikovali kde a v akom formáte uložiť screenshot.  
 
-Po tom čo zadáte `npm run test` ymali by ste byť schopný nájsť obrázok s názvom home.jpg v  `test/screenshots` zložke.
+Po tom čo zadáte `npm run test` mali by ste byť schopný nájsť obrázok s názvom home.jpg v  `test/screenshots` zložke.
 
-NTeraz skúsme spraviť screenshot, počas toho ako emulujeme  mobilné zariadenie.
+Teraz skúsme spraviť screenshot, počas toho ako emulujeme  mobilné zariadenie.
 Najprv pridajte tento kód na vrch nášho súboru: 
 ```javascript {.line-numbers}
 const devices = require('puppeteer/DeviceDescriptors');
@@ -257,10 +258,10 @@ test('Emulate Mobile Device And take screenshot', async () => {
 }, timeout);
 ```
 
-Tento kód je podobný tomu predchádzajúcemu, rozdiel je v tom, že teraz importujeme zariadenia z `puppeteer/DeviceDescriptors`. Potom vyberáme IPhone X na riadku š z objektu devices. Na ďalšiom riadku emulujeme toto zariadenie s [page.emulate()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pageemulateoptions). A potom jednoducho urobíme screenshot presne tým istým spôsobom ako v predchádzajúcom teste. 
+Tento kód je podobný tomu predchádzajúcemu, rozdiel je v tom, že teraz importujeme zariadenia z `puppeteer/DeviceDescriptors`. Potom vyberáme IPhone X na riadku 3 z objektu devices. Na ďalšiom riadku emulujeme toto zariadenie s [page.emulate()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pageemulateoptions). A potom jednoducho urobíme screenshot presne tým istým spôsobom ako v predchádzajúcom teste. 
 
 ### Ako zachytiť request a targetovanie novo otvorených stránok
-Teraz sa pozrieme na trochu pokročilejšie vlastnosti ako je zachytávanie requestov. A taktiež vám ukážem ako targetovať novo otvorenú stránku v headless prehliadači.
+Teraz sa pozrieme na trochu pokročilejšie vlastnosti, ktoré Puppeteer poskytuje, ako je napríklad zachytávanie requestov. A taktiež vám ukážem ako targetovať novo otvorenú stránku v headless prehliadači.
 
 * premenujte `general.test.js.example` v `src/test` na `general.test.js` a skopírujte tam tento kód:
 ```javascript {.line-numbers}
@@ -279,7 +280,7 @@ Teraz sa pozrieme na trochu pokročilejšie vlastnosti ako je zachytávanie requ
     }, timeout);
 ```
 
-Tu na prvom riadku nastavujeme [page.setRequestInterception()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pagesetrequestinterceptionvalue) na `true`, čo nám umožňuje zachytiť každý odchádzajúci request. Na riadkoch 3-9 hovoríme aby Puppeteer prerušil každú odchádzajúci request, ktorý konči s `'.png'`. Takže vďaka tomuto kódu sa na stránke nenačíta obrázok, ktorý je na domovskej stránke našej aplikácie, vlastne sa toto stane až po tom čo znovu načítame stránku, pretože obrázok už bol načítaný predtým ako sme nastavili zachytávanie requestov. Potom na riadku 10 znovu načítame stránku s [page.reload()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pagereloadoptions), takže budeme môcť vidieť, že sa obrázok nezobrazuje. Ale ako vlastne, keďže Puppeteer testy sú tak rýchle ? Na to využijeme kód na ďalšiom riadku, ktorý je momentálne zakomentovaný, ale k tomuto sa vrátim až neskôr v skecii o debugovaní. A na riadku 12 nastavujeme [page.setRequestInterception()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pagesetrequestinterceptionvalue) na `false`, čo je veľmi dôležité! Pretože kebyže to neurobíme tak by zachytávanie requestov ostalo zapnuté po zvyšok nášho testovania a to môže spôsobiť veľa problémov, a byť veľmi ťažké na debugovanie. 
+Tu na prvom riadku nastavujeme [page.setRequestInterception()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pagesetrequestinterceptionvalue) na `true`, čo nám umožňuje zachytiť každý odchádzajúci request. Na riadkoch 3-9 hovoríme aby Puppeteer prerušil každú odchádzajúci request, ktorý konči s `'.png'`. Takže vďaka tomuto kódu sa na stránke nenačíta obrázok, ktorý je na domovskej stránke našej aplikácie, vlastne sa toto stane, až po tom čo znovu načítame stránku, pretože obrázok už bol načítaný, predtým ako sme nastavili zachytávanie requestov. Potom na riadku 10 znovu načítame stránku s [page.reload()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pagereloadoptions), takže budeme môcť vidieť, že sa obrázok nezobrazuje. Ale ako vlastne, keďže Puppeteer testy sú tak rýchle ? Na to využijeme kód na ďalšiom riadku, ktorý je momentálne zakomentovaný, ale k tomuto sa vrátim až neskôr v skecii o debugovaní. A na riadku 12 nastavujeme [page.setRequestInterception()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pagesetrequestinterceptionvalue) na `false`, čo je veľmi dôležité! Pretože kebyže to neurobíme tak by zachytávanie requestov ostalo zapnuté po zvyšok nášho testovania a to môže spôsobiť veľa problémov, a byť veľmi ťažké na debugovanie. 
 
 Pridajme teraz náš posledný test, s ktorým vám ukážem ako môžete targetovať novo otvorené stránky v headless prehliadači.
 
@@ -297,14 +298,14 @@ Pridajme teraz náš posledný test, s ktorým vám ukážem ako môžete target
     }, timeout);
 ```
 
-Na riadku 2 vytvárame nový Promise, v ktorom počúvame s  [browser.on('targetcreated')](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-event-targetcreated) ,či nový target (`page`) je vytvorený. Znova máme prístup k globálnej premennej `browser`,  vďaka [jest-puppeteer preset](https://github.com/smooth-code/jest-puppeteer) preset. Potom klikáme na link na našej domovskej stránke, ktorý otvára novú stránku, konkrétne: [GitHub Starter Project](https://github.com/Zovi343/E2E_Testing_with_Puppeteer_Starter). Na 7 riadku očakávame Promise, ktorý sme vytvorili na riadku 2 a tento Promise vracia novo otvorenú stránku. Takže v závere sme schopný získať title stránky a urobiť naše assertions. 
+Na riadku 2 vytvárame nový Promise, v ktorom počúvame s  [browser.on('targetcreated')](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-event-targetcreated) ,či nový target (`page`) je vytvorený. Znova máme prístup k globálnej premennej `browser`,  vďaka [jest-puppeteer](https://github.com/smooth-code/jest-puppeteer) preset. Potom klikáme na link na našej domovskej stránke, ktorý otvára novú stránku, konkrétne: [GitHub Starter Project](https://github.com/Zovi343/E2E_Testing_with_Puppeteer_Starter). Na 7 riadku očakávame Promise, ktorý sme vytvorili na riadku 2 a tento Promise vracia novo otvorenú stránku. Takže v závere sme schopný získať title stránky a urobiť naše assertions. 
 
 
 ## Debugovanie vašich testov
-Veľakrát budú vaše testy zlyhávať a často je veľmi ťažké takéto testy debugovať a zistiť čo sa vlastne deje len z terminálu. To je hlavný dôvod, prečo vám chcem ukázať rôzne metódy ,pomocou ktorý môžete debugovať vaše testy.
+Veľakrát budú vaše testy zlyhávať a často je veľmi ťažké takéto testy debugovať, a zistiť čo sa vlastne deje len z terminálu. To je hlavný dôvod, prečo vám chcem ukázať rôzne metódy, pomocou ktorý môžete debugovať vaše testy.
 
 #### Headless a SlowMo argumenty
-Takže pre debugovanie budete chcieť spustiť Puppeteer v headless móde a taktiež ho spomaliť, takže budete schopný vidieť, čo sa vlastne deje. Keďže nastavili tieto dve možnosti v `jest-puppeteer.config.js` , všetko čo teraz musíme spraviť je poskytnúť dve enviromentálne premenné, keď spúšťete testy z terminálu. 
+Takže pre debugovanie budete chcieť spustiť Puppeteer v headless móde a taktiež ho spomaliť, takže budete schopný vidieť, čo sa vlastne deje. Keďže sme nastavili tieto dve možnosti v `jest-puppeteer.config.js` , všetko čo teraz musíme spraviť je poskytnúť dve enviromentálne premenné, keď spúšťete testy z terminálu. 
 
 Do terminálu zadajte:
 ```
@@ -322,10 +323,10 @@ HEADLESS="false" SLOWMO=100 jest -t 'Intercept Request'
 Síce sme už teraz mohli vidieť, že sa obrázok nezobrazil, presne ako sme predpokladali, avšak bolo to stále celkom rýchle, nie ? Poďme to napraviť s `jestPuppeteer.debug()`.
 
 #### jestPuppeteer.debug()
-[jestPuppeteer.debug()](https://github.com/smooth-code/jest-puppeteer/blob/master/README.md#put-in-debug-mode) zastaví naše testy a poskytne nám čas na to, aby sme mohli zistiť, čo sa deje v prehliadači. Aby ste znovu spustili testy musíte stlačiť Enter. Takže teraz môžete odkomentovať riadok 11 z testu o zachytávani requestov a zadať predchádzajúci príkaz do terminálu. A budete môcť jasne vidieť, že obrázok nie je zobrazený na domovskej stránke, pretože request preň bola zachytená a prerušená. 
+[jestPuppeteer.debug()](https://github.com/smooth-code/jest-puppeteer/blob/master/README.md#put-in-debug-mode) zastaví naše testy, aby sme mohli zistiť, čo sa deje v prehliadači. Aby ste znovu spustili testy musíte stlačiť Enter. Takže teraz môžete odkomentovať riadok 11 z testu o zachytávani requestov a zadať predchádzajúci príkaz do terminálu. A budete môcť jasne vidieť, že obrázok nie je zobrazený na domovskej stránke, pretože request preň bola zachytená a prerušená. 
 
 ## Bonus Puppeteer Recorder
-Nakoniec by som vám rád odporučil jednu Chrome extension, ktorá sa vám môže zísť, keď píšete testy s Puppeteer. Volá sa [Puppeteer Recorder](https://chrome.google.com/webstore/detail/puppeteer-recorder/djeegiggegleadkkbgopoonhjimgehda?hl=en)a umožňuje vám náhravať vaše interakcie s prehliadačom, a následne vygenerovať z toho Puppeteer script. 
+Nakoniec by som vám rád odporučil jednu Chrome extension, ktorá sa vám môže zísť, keď píšete testy s Puppeteer. Volá sa [Puppeteer Recorder](https://chrome.google.com/webstore/detail/puppeteer-recorder/djeegiggegleadkkbgopoonhjimgehda?hl=en) a umožňuje vám náhravať vaše interakcie s prehliadačom, a následne vygenerovať z toho Puppeteer script. 
 
 ## Conclusion
-V tomto článku sme sa zaoberali dvomi veľmi populárnymi frameworkami Jest a Puppeteer. A naučili sme sa, že keď tie dva nástroje skombinujeme, získame veľmi robustné testovacie prostredie. Pokryli sme to veľa, naučili ste sa ako integrovať Puppeteer a Jest, ako písať testy pre rôzne príležitosti, ako debugovať vaše testy a mnoho viac. Ale môžem vás uistiť, že je ešte veľmi veľa toho, čo sme v tomto tutoriale nepokryli, takže ak máte záujem navštívte oficiálne dokumentácie jednotlivých nástrojov a naučte sa toho ešte viacej. 
+V tomto článku sme sa zaoberali dvomi veľmi populárnymi frameworkami Jest a Puppeteer. A naučili sme sa, že keď tie dva nástroje skombinujeme, získame veľmi robustné testovacie prostredie. Pokryli sme toho veľa, naučili ste sa ako integrovať Puppeteer a Jest, ako písať testy pre rôzne príležitosti, ako debugovať vaše testy a mnoho viac. Ale môžem vás uistiť, že je ešte veľmi veľa toho, čo sme v tomto tutoriale nepokryli, takže ak máte záujem navštívte oficiálne dokumentácie jednotlivých nástrojov a naučte sa toho ešte oveľa viacej!
