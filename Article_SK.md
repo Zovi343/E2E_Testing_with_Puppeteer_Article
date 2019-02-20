@@ -214,7 +214,7 @@ Teraz keď už máme nejaké základné testy za nami, skúsime napísať test p
     }, timeout);
 ```
 
-Prvá vec ktorú tu robíme, je že klikneme na Login link v navigácii. Používame na to [page.click()]() funkciu, ktorá berie jeden argument CSS selektor. Keďže sme navigovali na inú URL používame [page.waitForSelector()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pagewaitforselectorselector-options), na to aby sme počkali, kým DOM zobrazí náš formulár, takže budeme s ním môcť interagovať. Potom používame [page.type()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pagetypeselector-text-options) metódu, aby sme vyplnil náš formulár táto metóda berie dva argumenty CSS selektor a text, ktorý chceme napísať. Potom klikáme na submit button a čakáme kým sa objaví správa o úspešnom podaní formulára, ktorú získame pomocou [page.$eval](https://pptr.dev/#?product=Puppeteer&version=v1.12.2&show=api-pageevalselector-pagefunction-args-1). 
+Prvá vec ktorú tu robíme, je že klikneme na Login link v navigácii. Používame na to [page.click()]() funkciu, ktorá berie jeden argument CSS selektor. Keďže sme navigovali na inú URL používame [page.waitForSelector()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pagewaitforselectorselector-options), na to aby sme počkali, kým DOM zobrazí náš formulár, takže budeme s ním môcť interagovať. Potom používame [page.type()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pagetypeselector-text-options) metódu, aby sme vyplnil náš formulár táto metóda berie dva argumenty CSS selektor a text, ktorý chceme napísať. Potom klikáme na submit button a čakáme kým sa objaví správa o úspešnom podaní formulára, ktorú získame pomocou [page.$eval()](https://pptr.dev/#?product=Puppeteer&version=v1.12.2&show=api-pageevalselector-pagefunction-args-1). 
 
 Ak teraz zadáte `npm run test`, mali by ste vidieť tri úspešne testy .
 
@@ -326,5 +326,5 @@ Síce sme už teraz mohli vidieť, že sa obrázok nezobrazil, presne ako sme pr
 ## Bonus Puppeteer Recorder
 Nakoniec by som vám rád odporučil jednu Chrome extension, ktorá sa vám môže zísť, keď píšete testy s Puppeteer. Volá sa [Puppeteer Recorder](https://chrome.google.com/webstore/detail/puppeteer-recorder/djeegiggegleadkkbgopoonhjimgehda?hl=en) a umožňuje vám náhravať vaše interakcie s prehliadačom, a následne vygenerovať z toho Puppeteer script. 
 
-## Conclusion
+## Záver
 V tomto článku sme sa zaoberali dvomi veľmi populárnymi frameworkami Jest a Puppeteer. A naučili sme sa, že keď tie dva nástroje skombinujeme, získame veľmi robustné testovacie prostredie. Pokryli sme toho veľa, naučili ste sa ako integrovať Puppeteer a Jest, ako písať testy pre rôzne príležitosti, ako debugovať vaše testy a mnoho viac. Ale môžem vás uistiť, že je ešte veľmi veľa toho, čo sme v tomto tutoriale nepokryli, takže ak máte záujem navštívte oficiálne dokumentácie jednotlivých nástrojov a naučte sa toho ešte oveľa viacej!
