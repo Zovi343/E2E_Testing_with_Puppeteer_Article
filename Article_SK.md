@@ -208,15 +208,13 @@ Teraz keď už máme nejaké základné testy za nami, skúsime napísať test p
 
         await page.click('[type="submit"]');
         await page.waitForSelector('.success');
-        const html = await page.evaluate(() => {
-            return document.querySelector('.success').innerHTML;
-        });
+        const html = await page.$eval('.success', el => el.innerHTML);
 
         expect(html).toBe('Successfully signed up!');
     }, timeout);
 ```
 
-Prvá vec ktorú tu robíme, je že klikneme na Login link v navigácii. Používame na to [page.click()]() funkciu, ktorá berie jeden argument CSS selektor. Keďže sme navigovali na inú URL používame [page.waitForSelector()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pagewaitforselectorselector-options), na to aby sme počkali, kým DOM zobrazí náš formulár, takže budeme s ním môcť interagovať. Potom používame [page.type()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pagetypeselector-text-options) metódu, aby sme vyplnil náš formulár táto metóda berie dva argumenty CSS selektor a text, ktorý chceme napísať. Potom klikáme na submit button a čakáme kým sa objaví správa o úspešnom podaní formulára. 
+Prvá vec ktorú tu robíme, je že klikneme na Login link v navigácii. Používame na to [page.click()]() funkciu, ktorá berie jeden argument CSS selektor. Keďže sme navigovali na inú URL používame [page.waitForSelector()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pagewaitforselectorselector-options), na to aby sme počkali, kým DOM zobrazí náš formulár, takže budeme s ním môcť interagovať. Potom používame [page.type()](https://pptr.dev/#?product=Puppeteer&version=v1.11.0&show=api-pagetypeselector-text-options) metódu, aby sme vyplnil náš formulár táto metóda berie dva argumenty CSS selektor a text, ktorý chceme napísať. Potom klikáme na submit button a čakáme kým sa objaví správa o úspešnom podaní formulára, ktorú získame pomocou [page.$eval](https://pptr.dev/#?product=Puppeteer&version=v1.12.2&show=api-pageevalselector-pagefunction-args-1). 
 
 Ak teraz zadáte `npm run test`, mali by ste vidieť tri úspešne testy .
 
