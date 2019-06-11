@@ -1,6 +1,6 @@
 # End-to-End testovanie s Puppeteer and Jest 
 
-V tomto článku sa vám v rýchlosti predstavím základné typy testov a následne vás bližšie prevediem End-to-End testovaní, na ktoré budeme používať Jest a Puppeteer, čo sú veľmi populárne Javascriptové frameworky využívané na testovanie.
+V tomto článku vám v rýchlosti predstavím základné typy testov a následne vás bližšie prevediem End-to-End testovaní, na ktoré budeme používať Jest a Puppeteer, čo sú veľmi populárne Javascriptové frameworky využívané na testovanie.
 
 Prerekvizity pre tento tutorial sú:  
 
