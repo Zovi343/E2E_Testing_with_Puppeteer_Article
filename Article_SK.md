@@ -133,7 +133,7 @@ module.exports = {
 
 Na riadku 2 špecifikujeme `jest-puppeteer` preset, ktorý nám umožní použiť Jest s Pupeteer. V `globals`deklarujeme premenné, ktoré budú dostupné vo všetkých testoch. A v  `testMatch` jednoducho hovoríme, v ktorých zložkách má Jest hľadať súborý.  
 
-#### Configuration for jest-puppeteer preset
+#### Konfigurácia pre jest-puppeteer preset
 * vytvorte `jest-puppeteer.config.js` súbor v root directory nášho projektu a použite tento kód :
 ```javascript {.line-numbers}
 module.exports = {
@@ -143,7 +143,7 @@ module.exports = {
     }
 }
 ```
-V `lauch`  objekte špecifikujeme argumenty pre inštanciu [Chromia](https://www.chromium.org/), ktorá bude spustená predtým ako pobežia naše testy a bude dostupná vo všetkých našich testovacích súboroch, takže tu môžete zadať všetky argumenty, ktoré by ste normálne dali do [puppeteer.launch()](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#puppeteerlaunchoptions). Na riadku 3 špecifikujeme, či by mal Puppeteer spustiť prehliadač v  `headless` móde alebo nie. A na riadku 4 mu hovoríme aby bežal v `slowMo`, čo spomalý Puppeteer o milisekundy, ktoré špecifikujeme, takže budeme môcť pozorovať čo vlastne robí. Obidve možnosti, ktoré tu definujeme sú skvelé pre debugovanie. 
+V `launch`  objekte špecifikujeme argumenty pre inštanciu [Chromia](https://www.chromium.org/), ktorá bude spustená predtým ako pobežia naše testy a bude dostupná vo všetkých našich testovacích súboroch, takže tu môžete zadať všetky argumenty, ktoré by ste normálne dali do [puppeteer.launch()](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#puppeteerlaunchoptions). Na riadku 3 špecifikujeme, či by mal Puppeteer spustiť prehliadač v  `headless` móde alebo nie. A na riadku 4 mu hovoríme aby bežal v `slowMo`, čo spomalý Puppeteer o milisekundy, ktoré špecifikujeme, takže budeme môcť pozorovať čo vlastne robí. Obidve možnosti, ktoré tu definujeme sú skvelé pre debugovanie. 
 
 ## Písanie Našich testov
 
